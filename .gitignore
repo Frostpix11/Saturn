@@ -1,0 +1,5 @@
+# backups made by the scripts on your machine
+*.bak-celestia
+windhawk/backup/
+theme/*-backup.reg
+*.log

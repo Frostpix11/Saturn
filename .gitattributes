@@ -1,0 +1,8 @@
+* text=auto
+*.ps1 text eol=crlf
+*.ini binary
+*.inc binary
+*.png binary
+*.ico binary
+*.gif binary
+*.mp4 binary

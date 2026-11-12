@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Saturn Eclipse</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #010808; }
+  canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<canvas id="fx"></canvas>
+<script src="data.js"></script>
+<script>
+// Saturn Eclipse: live pixel-art wallpaper (Celestia). Everything is drawn in IMAGE pixels (2000x1125)
+// with a nearest-neighbour transform, so the effects stay as crisp as the art.
+const IW = 2000, IH = 1125, PLANET = { x: 720, y: 368 };
+const SPARKS = [[18, 35, 9], [68, 93, 7], [1143, 122, 6], [1118, 318, 7], [1727, 260, 6], [795, 288, 12]];
+const cfg = { fps: 30, twinkle: 0.45, shooting: true, fireflies: 14, corona: true };
+
+const bg = document.getElementById('bg'), fx = document.getElementById('fx');
+const b = bg.getContext('2d'), c = fx.getContext('2d');
+const img = new Image(); img.src = 'bg.png';
+let S = 1, OX = 0, OY = 0;
+
+function layout() {
+  const w = innerWidth, h = innerHeight, dpr = devicePixelRatio || 1;
+  for (const cv of [bg, fx]) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+  S = Math.max(bg.width / IW, bg.height / IH);
+  OX = (bg.width - IW * S) / 2; OY = (bg.height - IH * S) / 2;
+  b.setTransform(1, 0, 0, 1, 0, 0); b.imageSmoothingEnabled = false;
+  if (img.complete) b.drawImage(img, OX, OY, IW * S, IH * S);
+  c.setTransform(S, 0, 0, S, OX, OY); c.imageSmoothingEnabled = false;
+}
+img.onload = layout; addEventListener('resize', layout);
+
+// ---- stars: random subset twinkles, each with its own speed and phase
+const rnd = (a, z) => a + Math.random() * (z - a);
+const stars = (window.STARS || []).map(s => ({ x: s[0], y: s[1], w: s[2], h: s[3], col: s[4], bg: s[5],
+  on: Math.random() < cfg.twinkle, sp: rnd(0.4, 1.6), ph: rnd(0, 6.28), mode: Math.random() < 0.25 ? 'flare' : 'dim' }));
+
+// ---- horizon: a few dither pixels of the sunset band flicker brighter
+const horizon = (window.HORIZON || []).filter(() => Math.random() < 0.18).map(p => ({ x: p[0], y: p[1], sp: rnd(0.3, 1.1), ph: rnd(0, 6.28) }));
+
+// ---- fireflies around the tree and over the hills
+const flies = Array.from({ length: cfg.fireflies }, (_, i) => ({
+  ax: i < 6 ? rnd(1330, 1650) : rnd(80, 1950), ay: i < 6 ? rnd(640, 820) : rnd(790, 930),
+  rx: rnd(20, 60), ry: rnd(10, 30), sp: rnd(0.08, 0.22), ph: rnd(0, 6.28), bl: rnd(0.5, 1.4) }));
+
+// ---- shooting stars
+let meteor = null, nextMeteor = performance.now() + rnd(4000, 9000);
+function spawnMeteor(t) {
+  const x = rnd(1050, 1950), y = rnd(20, 260);
+  meteor = { x, y, vx: -rnd(420, 620), vy: rnd(150, 230), born: t, life: rnd(900, 1400) };
+}
+
+// ---- low-res buffer for the pixelated corona glow
+const glow = document.createElement('canvas'); glow.width = 200; glow.height = 113;
+const g = glow.getContext('2d');
+
+function q(v, step = 2) { return Math.round(v / step) * step; }
+
+function frame(t) {
+  const s = t / 1000;
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, fx.width, fx.height); c.restore();
+
+  // corona breathing (drawn at 1/10 resolution, upscaled with hard pixels)
+  if (cfg.corona) {
+    const k = 0.5 + 0.5 * Math.sin(s * 0.55);
+    g.clearRect(0, 0, 200, 113);
+    const gr = g.createRadialGradient(72, 37, 9, 72, 37, 42);
+    gr.addColorStop(0, `rgba(242,201,107,${0.10 + 0.10 * k})`);
+    gr.addColorStop(0.45, `rgba(227,176,92,${0.04 + 0.05 * k})`);
+    gr.addColorStop(1, 'rgba(227,176,92,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, 200, 113);
+    // keep the eclipsed disc pitch black: punch it out of the glow
+    g.globalCompositeOperation = 'destination-out'; g.fillStyle = '#000'; g.beginPath(); g.arc(72, 36.8, 11.2, 0, 6.2832); g.fill();
+    g.globalCompositeOperation = 'source-over';
+    c.globalCompositeOperation = 'lighter'; c.drawImage(glow, 0, 0, IW, IH); c.globalCompositeOperation = 'source-over';
+  }
+
+  // twinkling stars
+  for (const st of stars) {
+    if (!st.on) continue;
+    const v = Math.sin(s * st.sp * 2.4 + st.ph);
+    if (st.mode === 'dim') {
+      if (v > 0.2) { c.globalAlpha = (v - 0.2) * 0.9; c.fillStyle = st.bg; c.fillRect(st.x, st.y, st.w, st.h); }
+    } else if (v > 0.55) {
+      c.globalAlpha = (v - 0.55) * 1.6; c.fillStyle = '#FFF4C8';
+      c.fillRect(st.x - 2, st.y - 2, st.w + 4, st.h + 4);
+    }
+  }
+  c.globalAlpha = 1;
+
+  // sunset band shimmer
+  c.fillStyle = '#FFC06A';
+  for (const p of horizon) {
+    const v = Math.sin(s * p.sp * 2 + p.ph);
+    if (v > 0.6) { c.globalAlpha = (v - 0.6) * 0.9; c.fillRect(p.x, p.y, 5, 5); }
+  }
+  c.globalAlpha = 1;
+
+  // cross sparkles pulse their arms
+  for (const [x, y, len] of SPARKS) {
+    const k = 0.5 + 0.5 * Math.sin(s * 1.3 + x * 0.01);
+    const L = q(len * (0.6 + 0.9 * k)), a = 0.35 + 0.65 * k;
+    c.globalAlpha = a; c.fillStyle = '#FFF7D6';
+    c.fillRect(x - L, y - 1, 2 * L + 2, 2); c.fillRect(x, y - L - 1, 2, 2 * L + 2);
+    c.globalAlpha = a * 0.5; c.fillRect(x - 2, y - 3, 4, 4);
+  }
+  c.globalAlpha = 1;
+
+  // shooting star: pixel steps with a fading trail
+  if (cfg.shooting) {
+    if (!meteor && t > nextMeteor) spawnMeteor(t);
+    if (meteor) {
+      const age = (t - meteor.born) / 1000, life = meteor.life / 1000;
+      if (age > life) { meteor = null; nextMeteor = t + rnd(7000, 16000); }
+      else {
+        const fade = Math.min(1, age * 6) * Math.min(1, (life - age) * 4);
+        for (let i = 0; i < 14; i++) {
+          const a2 = age - i * 0.018; if (a2 < 0) break;
+          const x = q(meteor.x + meteor.vx * a2, 3), y = q(meteor.y + meteor.vy * a2, 3);
+          c.globalAlpha = fade * (1 - i / 14); c.fillStyle = i < 2 ? '#FFFBE8' : '#F2C96B';
+          c.fillRect(x, y, i < 2 ? 4 : 3, i < 2 ? 4 : 3);
+        }
+        c.globalAlpha = 1;
+      }
+    }
+  }
+
+  // fireflies
+  for (const f of flies) {
+    const x = q(f.ax + Math.sin(s * f.sp * 2 + f.ph) * f.rx + Math.sin(s * f.sp * 5.1) * 6, 3);
+    const y = q(f.ay + Math.cos(s * f.sp * 1.7 + f.ph) * f.ry, 3);
+    const v = 0.5 + 0.5 * Math.sin(s * f.bl * 3 + f.ph);
+    c.globalAlpha = 0.15 + 0.85 * v * v; c.fillStyle = '#F2C96B'; c.fillRect(x, y, 3, 3);
+    c.globalAlpha *= 0.35; c.fillRect(x - 3, y, 9, 3); c.fillRect(x, y - 3, 3, 9);
+  }
+  c.globalAlpha = 1;
+}
+
+let last = 0;
+function loop(t) { requestAnimationFrame(loop); if (t - last < 1000 / cfg.fps - 2) return; last = t; frame(t); }
+requestAnimationFrame(loop);
+
+// Wallpaper Engine user properties
+window.wallpaperPropertyListener = {
+  applyUserProperties(p) {
+    if (p.fps) cfg.fps = p.fps.value;
+    if (p.shooting) cfg.shooting = p.shooting.value;
+    if (p.corona) cfg.corona = p.corona.value;
+    if (p.twinkle) { cfg.twinkle = p.twinkle.value / 100; stars.forEach(st => st.on = Math.random() < cfg.twinkle); }
+  }
+};
+</script>
+</body>
+</html>

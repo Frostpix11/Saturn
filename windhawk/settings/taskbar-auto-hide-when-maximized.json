@@ -1,0 +1,16 @@
+{
+  "excludedPrograms[0]": "Rainmeter.exe",
+  "excludedPrograms[1]": "wallpaper64.exe",
+  "excludedPrograms[2]": "webwallpaper64.exe",
+  "excludedPrograms[3]": "Everything.exe",
+  "excludedPrograms[4]": "yasb.exe",
+  "excludedPrograms[5]": "NVIDIA Overlay.exe",
+  "excludedPrograms[6]": "StartMenuExperienceHost.exe",
+  "excludedPrograms[7]": "SearchHost.exe",
+  "excludedPrograms[8]": "ShellExperienceHost.exe",
+  "excludedPrograms[9]": "ShellHost.exe",
+  "foregroundWindowOnly": 0,
+  "mode": "intersected",
+  "oldTaskbarOnWin11": 0,
+  "primaryMonitorOnly": 0
+}

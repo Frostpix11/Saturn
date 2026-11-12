@@ -1,0 +1,140 @@
+--- a/dynamic-island-original-1.4.0.wh.cpp	2026-11-12 15:34:37.370080400 +0200
++++ a/dynamic-island-celestia.wh.cpp	2026-11-12 15:35:33.671191100 +0200
+@@ -1,9 +1,9 @@
+ // ==WindhawkMod==
+-// @id              dynamic-island-for-windows
+-// @name            Dynamic Island for Windows
++// @id              dynamic-island-celestia
++// @name            Dynamic Island (Celestia)
+ // @description     A living, breathing pill overlay inspired by iPhone's Dynamic Island. Reacts to media, downloads, clipboard, battery, and more.
+-// @version         1.4.0
+-// @author          Himanshu
++// @version         1.4.0-celestia1
++// @author          Himanshu (+ Celestia patch: auto game mode)
+ // @github          https://github.com/devcode90
+ // @include         windhawk.exe
+ // @compilerOptions -lole32 -loleaut32 -lshcore -ld2d1 -ldwrite -ldwmapi -lgdi32 -luser32 -lshell32 -lruntimeobject -lwindowscodecs -lsetupapi -lwinhttp -lpdh -lwinmm
+@@ -1744,6 +1744,49 @@
+ void* g_wnfDndSubscription = nullptr;
+ 
+ std::atomic<bool> g_gameOverlayPinned{false};
++
++// ── Celestia patch: auto game mode ──────────────────────────────────────────
++// While a known game window is in the foreground the island switches to the
++// game overlay by itself, stays visible in full screen (borderless) and is not
++// taken over by media or popups. Leaving the game restores normal behaviour.
++std::atomic<bool> g_gameAutoActive{false};
++
++inline bool GameOverlayOn(const Settings& s) {
++    return s.gameOverlay || g_gameOverlayPinned.load() || g_gameAutoActive.load();
++}
++
++inline bool IsGameForeground() {
++    static const wchar_t* const kGameExes[] = {
++        L"FortniteClient-Win64-Shipping.exe",
++    };
++    HWND fg = GetForegroundWindow();
++    if (!fg) return false;
++    DWORD pid = 0;
++    GetWindowThreadProcessId(fg, &pid);
++    if (pid) {
++        if (HANDLE h = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid)) {
++            wchar_t path[MAX_PATH] = {};
++            DWORD n = MAX_PATH;
++            const bool ok = QueryFullProcessImageNameW(h, 0, path, &n) != FALSE;
++            CloseHandle(h);
++            if (ok) {
++                const wchar_t* name = wcsrchr(path, L'\\');
++                name = name ? name + 1 : path;
++                for (const wchar_t* exe : kGameExes) {
++                    if (_wcsicmp(name, exe) == 0) return true;
++                }
++                return false;
++            }
++        }
++    }
++    // Fallback when the process cannot be opened (anti-cheat): Unreal window titled Fortnite.
++    wchar_t cls[64] = {}, title[64] = {};
++    GetClassNameW(fg, cls, 64);
++    GetWindowTextW(fg, title, 64);
++    return wcscmp(cls, L"UnrealWindow") == 0 && wcsncmp(title, L"Fortnite", 8) == 0;
++}
++// ────────────────────────────────────────────────────────────────────────────
++
+ std::atomic<bool> g_pinnedExpanded{false};
+ std::atomic<int> g_pillOpacityOverride{-1};
+ 
+@@ -11874,7 +11917,7 @@
+         settingsOpacity_ = settings.pillOpacity;
+ 
+         const bool gameMetricsPresent = primary.kind == IslandKind::Idle &&
+-            (settings.gameOverlay || g_gameOverlayPinned.load());
++            GameOverlayOn(settings);
+         // True while the island is collapsing to nothing (auto-hide / fullscreen).
+         islandHiding_ = primary.width < 1.0f && primary.height < 1.0f && !secondary;
+ 
+@@ -15080,7 +15123,7 @@
+ 
+     void DrawIdleDashboard(const SharedState& state, D2D1_RECT_F rect, const Settings& settings,
+                            double now) {
+-        if (settings.gameOverlay || g_gameOverlayPinned.load()) {
++        if (GameOverlayOn(settings)) {
+             DrawGameOverlay(state, rect, 1.0f);
+             return;
+         }
+@@ -20867,6 +20910,12 @@
+ std::vector<IslandKind> ChooseActivities(const SharedState& state, const Settings& settings, double now) {
+     std::vector<IslandKind> activities;
+ 
++    // Celestia patch: in a game only the stats strip, nothing takes it over.
++    if (g_gameAutoActive.load()) {
++        activities.push_back(IslandKind::Idle);
++        return activities;
++    }
++
+     if (settings.quickLookup && state.lookup.active && now < state.lookup.expiresAt) {
+         activities.push_back(IslandKind::Lookup);
+     }
+@@ -22385,7 +22434,7 @@
+                 }
+                 const bool gameMetricsPresent =
+                     !kinds.empty() && kinds[0] == IslandKind::Idle &&
+-                    (g_settings.gameOverlay || g_gameOverlayPinned.load());
++                    GameOverlayOn(g_settings);
+ 
+                 bool expanded = g_pinnedExpanded.load() || g_clickExpanded.load();
+                 if (!gameMetricsPresent && !g_settings.expandOnHover && !expanded) {
+@@ -23079,7 +23128,7 @@
+ 
+         bool isHoverExpanded = g_settings.expandOnHover ? hover : (hover && g_clickExpanded.load());
+         const bool gameMetricsPresent = primary.kind == IslandKind::Idle &&
+-            (g_settings.gameOverlay || g_gameOverlayPinned.load());
++            GameOverlayOn(g_settings);
+         if (gameMetricsPresent) {
+             isHoverExpanded = false;
+         }
+@@ -23106,7 +23155,14 @@
+         static bool isFullscreen = false;
+         static double lastFullscreenCheck = -1.0;  // -1.0 guarantees the very first iteration checks
+         if (now - lastFullscreenCheck > 0.5) {
+-            const bool newFullscreen = g_settings.autoHideFullscreen && IsForegroundFullscreen(hwnd);
++            // Celestia patch: detect the game; while it is in front never hide for full screen.
++            const bool gameFg = IsGameForeground();
++            if (gameFg != g_gameAutoActive.load()) {
++                g_gameAutoActive.store(gameFg);
++                g_layoutDirty = true;
++                Wh_Log(L"Celestia: game mode %s", gameFg ? L"on" : L"off");
++            }
++            const bool newFullscreen = g_settings.autoHideFullscreen && !gameFg && IsForegroundFullscreen(hwnd);
+             if (isFullscreen && !newFullscreen) {
+                 // Fullscreen ended — re-arm so the next fullscreen session
+                 // hides again even if the hotkey was used to reveal the
+@@ -23179,7 +23235,7 @@
+             }
+         }
+         if (!isFullscreen && primary.kind == IslandKind::Idle &&
+-            (g_settings.gameOverlay || g_gameOverlayPinned.load())) {
++            GameOverlayOn(g_settings)) {
+             // Width follows the metrics actually enabled (#25) so switching some
+             // off shrinks the strip instead of leaving empty space, and compact
+             // mode narrows it enough to sit neatly in the taskbar area. Both the

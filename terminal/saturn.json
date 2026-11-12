@@ -1,0 +1,55 @@
+{
+  "$comment": "Paste \"schemes\" and \"themes\" into your Windows Terminal settings.json, then set \"theme\": \"Saturn\" and profiles.defaults.colorScheme = \"Saturn\"",
+  "schemes": [
+    {
+      "name": "Saturn",
+      "background": "#061918",
+      "foreground": "#F1E6C4",
+      "cursorColor": "#F2C96B",
+      "selectionBackground": "#23544B",
+      "black": "#0E2B28",
+      "red": "#D9694E",
+      "green": "#8FBF7A",
+      "yellow": "#F2C96B",
+      "blue": "#6AAEB8",
+      "purple": "#E3964A",
+      "cyan": "#5FB3A0",
+      "white": "#C8C4A2",
+      "brightBlack": "#3D6B5F",
+      "brightRed": "#E8826A",
+      "brightGreen": "#A8D193",
+      "brightYellow": "#FFE29A",
+      "brightBlue": "#8CC9D4",
+      "brightPurple": "#F0B27A",
+      "brightCyan": "#86D1BF",
+      "brightWhite": "#F1E6C4"
+    }
+  ],
+  "themes": [
+    {
+      "name": "Saturn",
+      "tab": {
+        "background": "#061918FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#041312FF",
+        "unfocusedBackground": "#010808FF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
+      }
+    }
+  ],
+  "profileDefaults": {
+    "colorScheme": "Saturn",
+    "useAcrylic": true,
+    "opacity": 95
+  }
+}

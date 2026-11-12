@@ -1,0 +1,13 @@
+{
+  "BackgroundEffects.AccentBlurBehind": "FF0E2B28",
+  "BackgroundEffects.type": "acrylicblur",
+  "FlyoutsEffects": 1,
+  "RenderingMod.AccentColorControls": 1,
+  "RenderingMod.SysColors": 1,
+  "RenderingMod.ThemeBackground": 1,
+  "RuledPrograms[0].BackgroundEffects.AccentBlurBehind": "3A232323",
+  "RuledPrograms[0].BackgroundEffects.type": "none",
+  "RuledPrograms[0].RenderingMod.AccentColorControls": 0,
+  "RuledPrograms[0].RenderingMod.ThemeBackground": 0,
+  "RuledPrograms[0].target": "Notepad.exe"
+}

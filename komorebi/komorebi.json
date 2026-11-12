@@ -1,0 +1,217 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.41/schema.json",
+  "app_specific_configuration_path": "$Env:USERPROFILE/applications.json",
+  "window_hiding_behaviour": "Cloak",
+  "cross_monitor_move_behaviour": "Insert",
+  "mouse_follows_focus": false,
+  "default_workspace_padding": 15,
+  "default_container_padding": 15,
+  "border": false,
+  "border_width": 2,
+  "border_offset": 0,
+  "border_style": "Rounded",
+  "border_implementation": "Komorebi",
+  "border_colours": {
+    "single": "#E3B05C",
+    "stack": "#5FB3A0",
+    "monocle": "#F2C96B",
+    "floating": "#8FBF7A",
+    "unfocused": "#17403A"
+  },
+  "animation": {
+    "enabled": true,
+    "duration": 220,
+    "style": "EaseOutCubic",
+    "fps": 120
+  },
+  "ignore_rules": [
+    {
+      "kind": "Exe",
+      "id": "FortniteClient-Win64-Shipping_EAC_EOS.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "FortniteLauncher.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "EasyAntiCheat_EOS.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
+  "floating_applications": [
+    {
+      "kind": "Exe",
+      "id": "windhawk.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "MSIAfterburner.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "Everything.exe",
+      "matching_strategy": "Equals"
+    },
+    [
+      {
+        "kind": "Exe",
+        "matching_strategy": "Equals",
+        "id": "freshGram.exe"
+      },
+      {
+        "kind": "Title",
+        "matching_strategy": "Equals",
+        "id": "Media viewer"
+      }
+    ],
+    {
+      "id": "EpicGamesLauncher.exe",
+      "matching_strategy": "Equals",
+      "kind": "Exe"
+    },
+    {
+      "kind": "Exe",
+      "id": "FortniteClient-Win64-Shipping.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
+  "monitors": [
+    {
+      "workspaces": [
+        {
+          "name": "+",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 1,
+              "center_focused_column": true
+            }
+          },
+          "work_area_offset": {
+            "left": 480,
+            "top": 0,
+            "right": 960,
+            "bottom": 0
+          }
+        },
+        {
+          "name": "1",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 1,
+              "center_focused_column": true
+            }
+          },
+          "work_area_offset": {
+            "left": 480,
+            "top": 0,
+            "right": 960,
+            "bottom": 0
+          }
+        },
+        {
+          "name": "2",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 1,
+              "center_focused_column": true
+            }
+          },
+          "work_area_offset": {
+            "left": 480,
+            "top": 0,
+            "right": 960,
+            "bottom": 0
+          }
+        },
+        {
+          "name": "3",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 1,
+              "center_focused_column": true
+            }
+          },
+          "work_area_offset": {
+            "left": 480,
+            "top": 0,
+            "right": 960,
+            "bottom": 0
+          }
+        },
+        {
+          "name": "4",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 1,
+              "center_focused_column": true
+            }
+          },
+          "work_area_offset": {
+            "left": 480,
+            "top": 0,
+            "right": 960,
+            "bottom": 0
+          },
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "FortniteClient-Win64-Shipping.exe",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Exe",
+              "id": "EpicGamesLauncher.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
+        },
+        {
+          "name": "5",
+          "layout": "Scrolling",
+          "layout_options": {
+            "scrolling": {
+              "columns": 1,
+              "center_focused_column": true
+            }
+          },
+          "work_area_offset": {
+            "left": 480,
+            "top": 0,
+            "right": 960,
+            "bottom": 0
+          }
+        }
+      ]
+    }
+  ],
+  "tray_and_multi_window_applications": [
+    {
+      "kind": "Exe",
+      "matching_strategy": "Equals",
+      "id": "freshGram.exe"
+    }
+  ],
+  "manage_rules": [
+    {
+      "id": "EpicGamesLauncher.exe",
+      "matching_strategy": "Equals",
+      "kind": "Exe"
+    },
+    {
+      "kind": "Exe",
+      "id": "FortniteClient-Win64-Shipping.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
+  "toggle_float_placement": "None"
+}

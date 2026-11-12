@@ -1,0 +1,80 @@
+.shell powershell
+
+# Celestia: niri-style keys for komorebi (Mod = Win)
+# Win+L stays the Windows lock (it cannot be rebound) -> use Win+H / arrows on the left side.
+
+# apps
+win + t                 : Start-Process wt.exe
+# browser: point it at yours (Helium here)
+win + b                 : Start-Process "$env:LOCALAPPDATA\imput\Helium\Application\chrome.exe"
+win + alt + l           : rundll32.exe user32.dll,LockWorkStation
+
+# windows
+win + q                 : komorebic close
+win + z                 : komorebic minimize
+win + f                 : komorebic toggle-maximize
+win + shift + f         : komorebic toggle-monocle
+# Win+Shift+Space is taken: PowerToys maps it to Caps Lock (Caps itself = Win+Space)
+win + alt + space       : komorebic toggle-float
+
+# focus (niri: focus-column / focus-window)
+win + h                 : komorebic focus left
+win + left              : komorebic focus left
+win + right             : komorebic focus right
+win + up                : komorebic focus up
+win + k                 : komorebic focus up
+win + down              : komorebic focus down
+win + j                 : komorebic focus down
+
+# move (niri: move-column / move-window)
+win + ctrl + h          : komorebic move left
+win + ctrl + left       : komorebic move left
+win + ctrl + l          : komorebic move right
+win + ctrl + right      : komorebic move right
+win + ctrl + up         : komorebic move up
+win + ctrl + k          : komorebic move up
+win + ctrl + down       : komorebic move down
+win + ctrl + j          : komorebic move down
+
+# columns (niri: consume / expel)
+win + oem_4             : komorebic stack left
+win + oem_6             : komorebic stack right
+win + shift + oem_6     : komorebic unstack
+
+# width (niri: set-column-width -10% / +10%)
+win + oem_minus         : komorebic resize-axis horizontal decrease
+win + oem_plus          : komorebic resize-axis horizontal increase
+win + shift + oem_minus : komorebic resize-axis vertical decrease
+win + shift + oem_plus  : komorebic resize-axis vertical increase
+
+# column width presets (niri: switch-preset-column-width / -back) -> 3 / 2 / 1 visible columns
+win + r                 : powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Saturn\komorebi\scripts\cycle-columns.ps1" next
+win + alt + r           : powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Saturn\komorebi\scripts\cycle-columns.ps1" prev
+
+# workspaces (niri: focus-workspace / move-column-to-workspace / focus-workspace-previous); 0 = "+" clean desk
+win + 0                 : komorebic focus-workspace 0
+win + 1                 : komorebic focus-workspace 1
+win + 2                 : komorebic focus-workspace 2
+win + 3                 : komorebic focus-workspace 3
+win + 4                 : komorebic focus-workspace 4
+win + 5                 : komorebic focus-workspace 5
+win + 6                 : komorebic focus-workspace 6
+win + 7                 : komorebic focus-workspace 7
+win + 8                 : komorebic focus-workspace 8
+win + 9                 : komorebic focus-workspace 9
+win + ctrl + 0          : komorebic move-to-workspace 0
+win + ctrl + 1          : komorebic move-to-workspace 1
+win + ctrl + 2          : komorebic move-to-workspace 2
+win + ctrl + 3          : komorebic move-to-workspace 3
+win + ctrl + 4          : komorebic move-to-workspace 4
+win + ctrl + 5          : komorebic move-to-workspace 5
+win + ctrl + 6          : komorebic move-to-workspace 6
+win + ctrl + 7          : komorebic move-to-workspace 7
+win + ctrl + 8          : komorebic move-to-workspace 8
+win + ctrl + 9          : komorebic move-to-workspace 9
+win + o                 : komorebic focus-last-workspace
+
+# komorebi itself
+win + ctrl + shift + r  : komorebic reload-configuration
+win + ctrl + shift + p  : komorebic toggle-pause
+win + ctrl + shift + o  : taskkill /f /im whkd.exe; Start-Process whkd -WindowStyle hidden

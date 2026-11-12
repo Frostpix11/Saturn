@@ -1,0 +1,240 @@
+﻿{
+    "theme":  "",
+    "backgroundTranslucentEffect":  "",
+    "backgroundTranslucentEffectRegion":  "",
+    "explorerFrameContainerHeight":  138,
+    "xamlDiagnosticsHandling":  "alert",
+    "controlStyles":  [
+                          {
+                              "target":  "FileExplorerExtensions.CommandBarControl_Wave1, FileExplorerExtensions.CommandBarControl",
+                              "styles":  [
+                                             "Grid.Row=0",
+                                             "HorizontalAlignment=Left",
+                                             "VerticalAlignment=Top",
+                                             "Width=470",
+                                             "Height=50",
+                                             "Margin=6,2,0,0",
+                                             "BorderThickness=0"
+                                         ]
+                          },
+                          {
+                              "target":  "FileExplorerExtensions.FileExplorerTabControl",
+                              "styles":  [
+                                             "Margin=470,0,0,0"
+                                         ]
+                          },
+                          {
+                              "target":  "CommandBar#FileExplorerSecondaryCommandBar",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "FileExplorerExtensions.CommandBarControl_Wave1 \u003e Grid, Grid#CommandBarControlRootGrid",
+                              "styles":  [
+                                             "Background=Transparent",
+                                             "BorderThickness=0"
+                                         ]
+                          },
+                          {
+                              "target":  "CommandBar#FileExplorerCommandBar",
+                              "styles":  [
+                                             "Background=Transparent",
+                                             "Height=44"
+                                         ]
+                          },
+                          {
+                              "target":  "Grid#NavigationBarControlGrid",
+                              "styles":  [
+                                             "Background=Transparent"
+                                         ]
+                          },
+                          {
+                              "target":  "AppBarButton \u003e Grid#Root@CommonStates \u003e Border#AppBarButtonInnerBorder",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e",
+                                             "Background@PointerOver:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.18\"/\u003e",
+                                             "Background@Pressed:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.24\"/\u003e",
+                                             "Background@Disabled:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.06\"/\u003e"
+                                         ]
+                          },
+                          {
+                              "target":  "AppBarButton",
+                              "styles":  [
+                                             "Margin=4,0,4,0",
+                                             "MinWidth=44"
+                                         ]
+                          },
+                          {
+                              "target":  "AppBarSeparator",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "TabViewItem \u003e Grid#LayoutRoot \u003e Canvas",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "TabViewItem \u003e Grid#LayoutRoot \u003e Grid#TabContainer",
+                              "styles":  [
+                                             "Background=Transparent",
+                                             "BorderThickness=0"
+                                         ]
+                          },
+                          {
+                              "target":  "TabViewItem \u003e Grid#LayoutRoot",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Margin=2,6,2,0",
+                                             "Height=42"
+                                         ]
+                          },
+                          {
+                              "target":  "TabViewItem \u003e Grid#LayoutRoot@CommonStates",
+                              "styles":  [
+                                             "Background@Normal:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.06\"/\u003e",
+                                             "Background@PointerOver:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.12\"/\u003e",
+                                             "Background@Selected:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.16\"/\u003e",
+                                             "Background@PointerOverSelected:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.20\"/\u003e",
+                                             "Background@PressedSelected:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.20\"/\u003e"
+                                         ]
+                          },
+                          {
+                              "target":  "Border#BottomBorderLine, Border#LeftBottomBorderLine, Border#RightBottomBorderLine",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "Microsoft.UI.Xaml.Shapes.Path#LeftRadiusRenderArc, Microsoft.UI.Xaml.Shapes.Path#RightRadiusRenderArc",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "Grid#TabContainerGrid \u003e Border \u003e Button#AddButton",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e",
+                                             "Width=40",
+                                             "Height=40",
+                                             "Margin=4,6,0,0"
+                                         ]
+                          },
+                          {
+                              "target":  "FileExplorerExtensions.AddressBarControl \u003e Grid#PART_LayoutRoot",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "BorderThickness=0",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e"
+                                         ]
+                          },
+                          {
+                              "target":  "AutoSuggestBox#PART_AutoSuggestBox \u003e Grid#LayoutRoot \u003e TextBox#TextBox",
+                              "styles":  [
+                                             "CornerRadius=8"
+                                         ]
+                          },
+                          {
+                              "target":  "AutoSuggestBox#FileExplorerSearchBox \u003e Grid#LayoutRoot \u003e TextBox \u003e Grid@CommonStates \u003e Border#BorderElement",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "BorderThickness=0",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e"
+                                         ]
+                          },
+                          {
+                              "target":  "Grid#FileExplorerAddressBarGrid, AutoSuggestBox#FileExplorerSearchBox",
+                              "styles":  [
+                                             "Height=40"
+                                         ]
+                          },
+                          {
+                              "target":  "Grid#DetailsViewControlRootGrid",
+                              "styles":  [
+                                             "Background=Transparent"
+                                         ]
+                          },
+                          {
+                              "target":  "StackPanel#DetailsViewThumbnail \u003e Grid",
+                              "styles":  [
+                                             "Background=Transparent"
+                                         ]
+                          },
+                          {
+                              "target":  "AppBarButton#upButton",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "CommandBar#FileExplorerCommandBar \u003e Grid#LayoutRoot \u003e Grid#ContentRoot \u003e Button#MoreButton",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e",
+                                             "Height=42",
+                                             "Width=44",
+                                             "Margin=4,0,4,0"
+                                         ]
+                          },
+                          {
+                              "target":  "AppBarButton[ToolTipService.ToolTip = Поделиться]",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "FileExplorerExtensions.NavigationBarControl",
+                              "styles":  [
+                                             "Margin=0,6,0,0"
+                                         ]
+                          },
+                          {
+                              "target":  "Microsoft.UI.Xaml.Controls.BreadcrumbBarItem",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e",
+                                             "Margin=2,5,2,5",
+                                             "Padding=6,0,6,0"
+                                         ]
+                          },
+                          {
+                              "target":  "AppBarButton#backButton, AppBarButton#forwardButton, AppBarButton#refreshButton, AppBarButton#stopButton",
+                              "styles":  [
+                                             "Height=38",
+                                             "MinWidth=40",
+                                             "VerticalAlignment=Center"
+                                         ]
+                          },
+                          {
+                              "target":  "FileExplorerExtensions.BreadcrumbBarItemControl",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e"
+                                         ]
+                          },
+                          {
+                              "target":  "FileExplorerExtensions.BreadcrumbBarItemControl \u003e Grid",
+                              "styles":  [
+                                             "CornerRadius=8",
+                                             "Background:=\u003cSolidColorBrush Color=\"#FFFFFF\" Opacity=\"0.10\"/\u003e"
+                                         ]
+                          },
+                          {
+                              "target":  "CommandBar#FileExplorerCommandBar \u003e Grid#LayoutRoot \u003e Grid#ContentRoot \u003e Grid#OverflowSeparator",
+                              "styles":  [
+                                             "Visibility=Collapsed"
+                                         ]
+                          },
+                          {
+                              "target":  "AutoSuggestBox#FileExplorerSearchBox \u003e Grid#LayoutRoot \u003e TextBox",
+                              "styles":  [
+                                             "VerticalContentAlignment=Center"
+                                         ]
+                          }
+                      ]
+}
