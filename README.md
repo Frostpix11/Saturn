@@ -205,7 +205,7 @@ Saturn/
 - [devcode90 / Dynamic Island for Windows](https://github.com/devcode90/Dynamic-Island-for-Windows), MIT
 - [komorebi, whkd, masir](https://github.com/LGUG2Z) by LGUG2Z · [YASB](https://github.com/amnweb/yasb) · [Windhawk](https://windhawk.net) and its mod authors · [Rainmeter](https://www.rainmeter.net)
 - [Catmocha icons](https://www.deviantart.com/digifeye) by digifeye · cursors ported by [niivu](https://www.deviantart.com/niivu), linked only, not redistributed
-- Wallpaper: pixel-art Saturn eclipse, original artist unknown. If it's yours, open an issue and I'll credit you or take it down.
+- Wallpaper: pixel-art Saturn eclipse by [MixaDoD](https://github.com/MixaDoDs). The live version is an animated remake of it.
 - App icons generated for this rice. App logos belong to their owners.
 
 Code and configs are under the [MIT license](LICENSE).
